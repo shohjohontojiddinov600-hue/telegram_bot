@@ -3,6 +3,8 @@ import html
 import logging
 import os
 import time
+import threading
+from http.server import HTTPServer, BaseHTTPRequestHandler
 import requests
 
 from dotenv import load_dotenv
@@ -41,6 +43,30 @@ GOOGLE_HEADERS = {
     "User-Agent": "GoogleTranslate/6.28.0.05.419073042 (Linux; U; Android 11; Pixel 5)"
 }
 GOOGLE_API_URL = "https://translate.google.com/translate_a/single"
+
+
+class RenderHealthCheckHandler(BaseHTTPRequestHandler):
+    """Render.com Web Service port talabi uchun mini-vebserver."""
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain; charset=utf-8")
+        self.end_headers()
+        self.wfile.write("Telegram Tarjimon Bot serverda 24/7 faol ishlamoqda!".encode("utf-8"))
+
+    def log_message(self, format, *args):
+        # Render ping loglari bilan konsolni to'ldirmaslik uchun
+        pass
+
+
+def start_render_web_server():
+    """Render.com da bot Deploy failed bo'lmasligi uchun port ochadi."""
+    port = int(os.environ.get("PORT", 10000))
+    try:
+        server = HTTPServer(("0.0.0.0", port), RenderHealthCheckHandler)
+        logging.info("Render Web Server %s-portda ishga tushdi...", port)
+        server.serve_forever()
+    except Exception as exc:
+        logging.warning("Web server xatosi (lokal kompyuterda bo'lsa xavotir olmang): %s", exc)
 
 # Qo'llab-quvvatlanadigan mashhur tillar ro'yxati:
 LANGUAGES = {
@@ -466,6 +492,9 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
 
 
 def main() -> None:
+    # Render.com Web Service uchun mini veb-serverni ishga tushirish (Deploy failed bo'lmasligi uchun):
+    threading.Thread(target=start_render_web_server, daemon=True).start()
+
     while True:
         try:
             try:
