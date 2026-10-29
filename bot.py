@@ -90,22 +90,24 @@ LANGUAGES = {
 
 # Asosiy klaviatura tugmalari:
 BTN_AUTO = "🔄 Avto (UZ ⇄ RU)"
-BTN_RU = "🇷🇺 Ruscha"
-BTN_EN = "🇬🇧 Inglizcha"
-BTN_KO = "🇰🇷 Koreyscha"
-BTN_JA = "🇯🇵 Yaponcha"
-BTN_DE = "🇩🇪 Nemischa"
-BTN_TR = "🇹🇷 Turkcha"
+BTN_UZ_KO = "🇺🇿 ➡️ 🇰🇷 Koreyscha"
+BTN_UZ_EN = "🇺🇿 ➡️ 🇬🇧 Inglizcha"
+BTN_UZ_JA = "🇺🇿 ➡️ 🇯🇵 Yaponcha"
+BTN_UZ_DE = "🇺🇿 ➡️ 🇩🇪 Nemischa"
+BTN_UZ_RU = "🇺🇿 ➡️ 🇷🇺 Ruscha"
+BTN_RU_UZ = "🇷🇺 ➡️ 🇺🇿 O‘zbekcha"
+BTN_UZ_TR = "🇺🇿 ➡️ 🇹🇷 Turkcha"
 BTN_MORE_LANGS = "🌐 Barcha 100+ tillar"
 BTN_HELP = "ℹ️ Yordam"
 
 MAIN_KEYBOARD = ReplyKeyboardMarkup(
     [
         [BTN_AUTO],
-        [BTN_RU, BTN_EN],
-        [BTN_KO, BTN_JA],
-        [BTN_DE, BTN_TR],
-        [BTN_MORE_LANGS, BTN_HELP],
+        [BTN_UZ_KO, BTN_UZ_EN],
+        [BTN_UZ_JA, BTN_UZ_DE],
+        [BTN_UZ_RU, BTN_RU_UZ],
+        [BTN_UZ_TR, BTN_MORE_LANGS],
+        [BTN_HELP],
     ],
     resize_keyboard=True,
 )
@@ -311,13 +313,14 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
     # Menyudagi til tugmalari bosilganda:
     lang_btn_map = {
-        BTN_AUTO: ("auto", "🔄 Avtomatik (UZ ⇄ RU) rejimi tanlandi!"),
-        BTN_RU: ("ru", "🇷🇺 <b>Rus tili</b> tanlandi! Istalgan matn yuboring, ruschaga o‘giraman."),
-        BTN_EN: ("en", "🇬🇧 <b>Ingliz tili</b> tanlandi! Istalgan matn yuboring, inglizchaga o‘giraman."),
-        BTN_KO: ("ko", "🇰🇷 <b>Koreys tili</b> tanlandi! Istalgan matn yuboring, koreys tiliga o‘giraman."),
-        BTN_JA: ("ja", "🇯🇵 <b>Yapon tili</b> tanlandi! Istalgan matn yuboring, yapon tiliga o‘giraman."),
-        BTN_DE: ("de", "🇩🇪 <b>Nemis tili</b> tanlandi! Istalgan matn yuboring, nemis tiliga o‘giraman."),
-        BTN_TR: ("tr", "🇹🇷 <b>Turk tili</b> tanlandi! Istalgan matn yuboring, turk tiliga o‘giraman."),
+        BTN_AUTO: ("auto", "🔄 <b>Avtomatik rejim (UZ ⇄ RU) faollashtirildi!</b>\n\nIstalgan o‘zbekcha yoki ruscha matn yuboring — bot tilni o‘zi aniqlab tarjima qiladi."),
+        BTN_UZ_KO: ("ko", "🇰🇷 <b>Rejim: O‘zbekcha ➡️ Koreyscha!</b>\n\nEndi istalgan o‘zbekcha so‘z yoki gap yuboring — men uni koreys tiliga talaffuzi bilan tarjima qilib beraman!"),
+        BTN_UZ_EN: ("en", "🇬🇧 <b>Rejim: O‘zbekcha ➡️ Inglizcha!</b>\n\nEndi istalgan o‘zbekcha matn yuboring — men uni ingliz tiliga tarjima qilib beraman!"),
+        BTN_UZ_JA: ("ja", "🇯🇵 <b>Rejim: O‘zbekcha ➡️ Yaponcha!</b>\n\nEndi istalgan o‘zbekcha matn yuboring — men uni yapon tiliga talaffuzi bilan tarjima qilib beraman!"),
+        BTN_UZ_DE: ("de", "🇩🇪 <b>Rejim: O‘zbekcha ➡️ Nemischa!</b>\n\nEndi istalgan o‘zbekcha matn yuboring — men uni nemis tiliga tarjima qilib beraman!"),
+        BTN_UZ_RU: ("ru", "🇷🇺 <b>Rejim: O‘zbekcha ➡️ Ruscha!</b>\n\nEndi istalgan o‘zbekcha matn yuboring — men uni rus tiliga tarjima qilib beraman!"),
+        BTN_RU_UZ: ("uz", "🇺🇿 <b>Rejim: Ruscha ➡️ O‘zbekcha!</b>\n\nEndi istalgan ruscha matn yuboring — men uni o‘zbek tiliga tarjima qilib beraman!"),
+        BTN_UZ_TR: ("tr", "🇹🇷 <b>Rejim: O‘zbekcha ➡️ Turkcha!</b>\n\nEndi istalgan o‘zbekcha matn yuboring — men uni turk tiliga tarjima qilib beraman!"),
     }
 
     if text in lang_btn_map:
